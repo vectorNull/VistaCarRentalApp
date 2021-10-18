@@ -1,5 +1,5 @@
 import { LightningElement, track, wire } from 'lwc';
-import getCarType from '@salesforce/apex/CarSearchFormController.getCarTypes';
+import getCarTypes from '@salesforce/apex/CarSearchFormController.getCarTypes';
 
 // https://developer.salesforce.com/docs/component-library/bundle/lightning-platform-show-toast-event/documentation
 // Display toasts to provide feedback to a user following an action, such as after a record is created.
@@ -11,7 +11,7 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class CarSearchForm extends NavigationMixin(LightningElement) {
     @track carTypes;
 
-    @wire (getCarType)
+    @wire (getCarTypes)
     wiredCarType({ data, error }) {
         if(data) {
             this.carTypes = [{value: '', label: 'All Types'}];
@@ -29,15 +29,17 @@ export default class CarSearchForm extends NavigationMixin(LightningElement) {
     handleCarTypeChange (event) {
         const carTypeId = event.detail.value;
 
-        const carTypeSelectionChangeEvent = new CustomEvent('carTypeselect', {detail : carTypeId})
+        const carTypeSelectionChangeEvent = new CustomEvent('cartypeselect', {detail : carTypeId})
         this.dispatchEvent(carTypeSelectionChangeEvent);
     }
 
     createNewCarType(event) {
         this[NavigationMixin.Navigate]({
-            type: 'standard__object',
-            attributes : 'Car_Type__c',
-            actionName : 'new'
+            type: 'standard__objectPage',
+            attributes : {
+                objectApiName:'Car_Type__c',
+                actionName: 'new'
+            }
         })
     }
 
