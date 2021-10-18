@@ -1,4 +1,4 @@
-public class VistaCarRentalTestFactory {
+public with sharing class VistaCarRentalTestFactory {
 
     public static List<Car_Type__c> createCarTypes(List<String> names){
         List<Car_Type__c> carTypes = new List<Car_Type__c>();
